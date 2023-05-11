@@ -8,6 +8,8 @@ from algos import bubbleSort
         
 def btncall(*args):
     print('Hello World!')
+    print(input_nr.text_disp._text)
+    print(input_str.text_disp._text)
 
 # rnd_length = random.randint(1,100)
 # print(rnd_length)
@@ -32,10 +34,16 @@ ax.set_title('Sound of Sorting')
 plt.subplots_adjust(bottom=0.20,left=0.20)
 
 input_nr_ax = fig.add_axes([0.15,0.01,0.13,0.05])
-input_nr = TextBox(input_nr_ax,'Qty Dataset',initial='4')
+input_nr = TextBox(input_nr_ax,'Qty Dataset',initial='1')
+
+input_str_ax = fig.add_axes([0.40,0.01,0.13,0.05])
+input_str = TextBox(input_str_ax,'Algo',initial='BubbleSort')
+
+input_ms_ax = fig.add_axes([0.6,0.01,0.13,0.05])
+input_ms = TextBox(input_ms_ax,'MS',initial='1000')
 
 bubble_pos = fig.add_axes([0.8,0.01,0.13,0.05])
-bubble_btn = Button(bubble_pos,label='Bubble Sort',color='green')
+bubble_btn = Button(bubble_pos,label='Start',color='red')
 bubble_btn.on_clicked(btncall)
 
 
