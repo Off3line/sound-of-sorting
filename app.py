@@ -10,6 +10,7 @@ def btncall(*args):
     print('Hello World!')
     print(input_nr.text_disp._text)
     print(input_str.text_disp._text)
+    print(input_ms.text_disp._text)
 
 # rnd_length = random.randint(1,100)
 # print(rnd_length)
