@@ -12,7 +12,7 @@ bar_rects = None
 generator = None
 
 
-def btncall(*args):
+def btncall(input_str,input_nr,input_ms,ax):
     if input_str.text_disp._text == 'BubbleSort':
         print('Hello World!')
         print(input_nr.text_disp._text)
@@ -46,7 +46,8 @@ def genRandomNr(qty):
    return rnd_list
 
 
-
+def startAlgo(v):
+   pass
 
 
 def initPlot():
@@ -67,8 +68,8 @@ def initPlot():
     input_ms = TextBox(input_ms_ax,'MS',initial='1000')
 
     bubble_pos = fig.add_axes([0.8,0.01,0.13,0.05])
-    bubble_btn = Button(bubble_pos,label='Start',color='red')
-    bubble_btn.on_clicked(btncall)
+    bubble_btn = Button(bubble_pos,label='Start',color='red',command=lambda: startAlgo(input_str,input_nr,input_ms,ax))
+   # bubble_btn.on_clicked(btncall)
     plt.show()
 
 initPlot()
