@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Button, TextBox
 import matplotlib.animation as animation
 import numpy as np
+from functools import partial
 import random
 from algos import bubbleSort
 
@@ -12,32 +13,32 @@ bar_rects = None
 generator = None
 
 
-def btncall(*args):
+def btncall(input_nr,input_str,input_ms):
     if input_str.text_disp._text == 'BubbleSort':
         print('Hello World!')
         print(input_nr.text_disp._text)
         print(input_str.text_disp._text)
         print(input_ms.text_disp._text)
         ax.set_title(input_str.text_disp._text)
-    
+
         lst = genRandomNr(int(input_nr.text_disp._text))
         generator = bubbleSort(lst)
         bar_rects = ax.bar(range(len(lst)),lst,align='edge')
         text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
-        update_fig(lst,bar_rects,iteration,text,generator)
+        update_fig(lst, bar_rects, iteration, text, generator)
     elif input_str.text_disp._text == 'Type':
         pass
     else:
         raise Exception('Exception Error wrong input')
 
 
-def update_fig(A, rects, iteration,text,generator):
-    for rect, val in zip(rects, A):
-        rect.set_height(val)
-    iteration[0] += 1
-    text.set_text("# of operations: {}".format(iteration[0]))
-   
-    plt.show()
+def update_fig(A, rects, iteration, text, generator):
+        for rect, val in zip(rects, A):
+            rect.set_height(val)
+        iteration[0] += 1
+        text.set_text("# of operations: {}".format(iteration[0]))
+     
+
 
 
 def genRandomNr(qty):
@@ -68,8 +69,11 @@ input_ms = TextBox(input_ms_ax,'MS',initial='1000')
 
 bubble_pos = fig.add_axes([0.8,0.01,0.13,0.05])
 bubble_btn = Button(bubble_pos,label='Start',color='red')
+par = partial(btncall,input_str,input_ms)
+bubble_btn.on_clicked(par)
 
-bubble_btn.on_clicked(btncall)
-
+anim = animation.FuncAnimation(fig, func=update_fig,
+        fargs=(bar_rects, iteration), frames=generator, interval=1,
+        repeat=False)
 
 plt.show()
