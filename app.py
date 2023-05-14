@@ -1,7 +1,9 @@
 import random
-import time
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import numpy as np
+import scipy as sp
+from scipy.io import wavfile
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
@@ -10,6 +12,11 @@ ms_val = 1
 
 algo_list = ['BubbleSort', 'SelectionSort']
 
+N = 30
+FPS = 60
+OVERSAMPLE = 2
+F_SAMPLE = 44100
+
 def genRandomNr(qty):
    rnd_list = []
    for x in range(qty):
@@ -17,6 +24,26 @@ def genRandomNr(qty):
     rnd_list.append(x)
    print(rnd_list)
    return rnd_list
+
+def freq_map(x, x_min=0, x_max=1000, freq_min=120, freq_max=1200):
+    """ map a value x to a frequency f and return a chunk of that
+    frequency for the specificed time dt"""
+    return np.interp(x, [x_min, x_max], [freq_min, freq_max])
+
+
+def freq_sample(freq, dt=1./60., samplerate=44100, oversample=2):
+    """Create a sample with a specific freqency {freq} for a specified
+    time {dt}"""
+    mid_samples = np.int16(dt * samplerate)
+    pad_samples = np.int16((mid_samples*(oversample-1)/2))
+    total_samples = mid_samples + 2*pad_samples
+
+    y = np.sin(2 * np.pi * freq * np.linspace(0, dt, total_samples))
+    y[:pad_samples] = y[:pad_samples] * np.linspace(0, 1, pad_samples)
+    y[- pad_samples:] = y[len(y) - pad_samples:] * \
+        np.linspace(1, 0, pad_samples)
+
+    return y
 
 def main(method,A,N):
      # Get appropriate generator to supply to matplotlib FuncAnimation method.
@@ -42,13 +69,9 @@ def main(method,A,N):
 
     bar_rects = ax.bar(range(len(A)), A, align="edge")
 
-
     ax.set_xlim(0, N)
     ax.set_ylim(0)
-
-
     text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
-
 
     iteration = [0]
     def update_fig(A, rects, iteration):
@@ -60,6 +83,29 @@ def main(method,A,N):
     anim = animation.FuncAnimation(fig, func=update_fig,
         fargs=(bar_rects, iteration), frames=generator, interval=ms_val,
         repeat=False)
+    
+
+    wav_data = np.zeros(np.int16(F_SAMPLE*len(A)*1./FPS), dtype=float)
+    dN = np.int16(F_SAMPLE * 1./FPS)  # how many samples is each chunk
+
+    for i, value in enumerate(A):
+        freq = freq_map(value)
+        sample = freq_sample(freq, dt=1./FPS, samplerate=F_SAMPLE,
+                            oversample=OVERSAMPLE)
+
+        idx_0 = np.int16((i+0.5)*dN - len(sample)/2)
+        idx_1 = idx_0 + len(sample)
+
+        try:
+            wav_data[idx_0:idx_1] = wav_data[idx_0:idx_1] + sample
+        except ValueError:
+            print(f"Failed to generate {i:.0f}th index sample")
+
+    wav_data = (2**15*(wav_data/np.max(np.abs(wav_data)))).astype(np.int16)
+    sp.io.wavfile.write(f"{title}_sound.wav", F_SAMPLE, wav_data)
+
+
+
     plt.show()
 
 def onClick():
