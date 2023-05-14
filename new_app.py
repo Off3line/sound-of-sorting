@@ -7,6 +7,7 @@ from tkinter import *
 from tkinter.ttk import *
 from algos import bubbleSort
 
+algo_list = ['BubbleSort', 'SelectionSort']
 
 def genRandomNr(qty):
    rnd_list = []
@@ -18,7 +19,7 @@ def genRandomNr(qty):
 
 def main(method,A,N):
      # Get appropriate generator to supply to matplotlib FuncAnimation method.
-    if method == "bubbleSort":
+    if method == "BubbleSort":
         title = "Bubble sort"
         generator = bubbleSort(A)
     elif method == "i":
@@ -61,8 +62,11 @@ def main(method,A,N):
     plt.show()
 
 def onClick():
+    
     qty_val = int(qty_inp.get())
     alg_val = algo_inp.get()
+    ms_val= int(ms_inp.get())
+    
     rnd_list = genRandomNr(qty_val)
     main(alg_val,rnd_list,qty_val)
 
@@ -86,9 +90,12 @@ qty_inp = ttk.Entry(root)
 qty_inp.insert(0,'1')
 
 algo_lbl = ttk.Label(root,text='Enter Algo:')
-algo_inp = ttk.Entry(root)
-algo_inp.insert(0,'bubbleSort')
+algo_inp = ttk.Combobox(root,values=algo_list)
+algo_inp.set('BubbleSort')
 
+ms_lbl = ttk.Label(root,text='MS')
+ms_inp = ttk.Entry(root)
+ms_inp.insert(0,'1000')
 btn = ttk.Button(root,text='Start',command=onClick)
 
 qty_lbl.grid(row=0,column=0,padx=30)
@@ -98,7 +105,5 @@ algo_inp.grid(row=1,column=1,padx=10)
 btn.grid(row=3,column=0,padx=10)
 
 root.mainloop()
-
-#main(method)
 
 
