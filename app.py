@@ -23,7 +23,7 @@ def main(method,A,N):
     if method == "BubbleSort":
         title = "Bubble sort"
         generator = bubbleSort(A)
-    elif method == "i":
+    elif method == "InsertionSort":
         title = "Insertion sort"
         generator = insertionsort(A)
     elif method == "m":
@@ -44,7 +44,7 @@ def main(method,A,N):
 
 
     ax.set_xlim(0, N)
-    ax.set_ylim(0, int(1.07 * N))
+    ax.set_ylim(0)
 
 
     text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
@@ -72,18 +72,6 @@ def onClick():
     rnd_list = genRandomNr(qty_val)
     main(alg_val,rnd_list,qty_val)
 
-
-# Get user input to determine range of integers (1 to N) and desired
-# sorting method (algorithm).
-#  N = int(input("Enter number of integers: "))
-#  method_msg = "Enter sorting method:\n(b)ubble\n(i)nsertion\n(m)erge \
-#     \n(q)uick\n(s)election\n"
-#  method = input(method_msg)
-
-# # Build and randomly shuffle list of integers.
-#  A = [x + 1 for x in range(N)]
-#  random.seed(time.time())
-#  random.shuffle(A)
 
 root = Tk(className='Sound of Sorting')
 
