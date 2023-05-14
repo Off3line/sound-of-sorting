@@ -1,45 +1,14 @@
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Button, TextBox
-import matplotlib.animation as animation
-import numpy as np
-from functools import partial
 import random
+import time
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from tkinter import ttk
+from tkinter import *
+from tkinter.ttk import *
 from algos import bubbleSort
+ms_val = 1
 
 algo_list = ['BubbleSort', 'SelectionSort']
-inpt_qty = None
-iteration = [0]
-bar_rects = None
-generator = None
-
-
-def btncall(input_nr,input_str,input_ms):
-    if input_str.text_disp._text == 'BubbleSort':
-        print('Hello World!')
-        print(input_nr.text_disp._text)
-        print(input_str.text_disp._text)
-        print(input_ms.text_disp._text)
-        ax.set_title(input_str.text_disp._text)
-
-        lst = genRandomNr(int(input_nr.text_disp._text))
-        generator = bubbleSort(lst)
-        bar_rects = ax.bar(range(len(lst)),lst,align='edge')
-        text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
-        update_fig(lst, bar_rects, iteration, text, generator)
-    elif input_str.text_disp._text == 'Type':
-        pass
-    else:
-        raise Exception('Exception Error wrong input')
-
-
-def update_fig(A, rects, iteration, text, generator):
-        for rect, val in zip(rects, A):
-            rect.set_height(val)
-        iteration[0] += 1
-        text.set_text("# of operations: {}".format(iteration[0]))
-     
-
-
 
 def genRandomNr(qty):
    rnd_list = []
@@ -49,31 +18,97 @@ def genRandomNr(qty):
    print(rnd_list)
    return rnd_list
 
-  
+def main(method,A,N):
+     # Get appropriate generator to supply to matplotlib FuncAnimation method.
+    if method == "BubbleSort":
+        title = "Bubble sort"
+        generator = bubbleSort(A)
+    elif method == "i":
+        title = "Insertion sort"
+        generator = insertionsort(A)
+    elif method == "m":
+        title = "Merge sort"
+        generator = mergesort(A, 0, N - 1)
+    elif method == "q":
+        title = "Quicksort"
+        generator = quicksort(A, 0, N - 1)
+    else:
+        title = "Selection sort"
+        generator = selectionsort(A)
 
-fig, ax = plt.subplots()
-ax.set_ylabel(' Y Label')
-ax.set_xlabel(' X Label')
-ax.set_title('Sound of Sorting')
-ax.text(0.15,-0.35,'Select one Algo: '+ ' '.join(algo_list))
-plt.subplots_adjust(bottom=0.30,left=0.20)
+    # Initialize figure and axis.
+    fig, ax = plt.subplots()
+    ax.set_title(title)
 
-input_nr_ax = fig.add_axes([0.15,0.01,0.13,0.05])
-input_nr = TextBox(input_nr_ax,'Qty Dataset',initial='1')
+    bar_rects = ax.bar(range(len(A)), A, align="edge")
 
-input_str_ax = fig.add_axes([0.40,0.01,0.13,0.05])
-input_str = TextBox(input_str_ax,'Algo',initial='Type')
 
-input_ms_ax = fig.add_axes([0.6,0.01,0.13,0.05])
-input_ms = TextBox(input_ms_ax,'MS',initial='1000')
+    ax.set_xlim(0, N)
+    ax.set_ylim(0, int(1.07 * N))
 
-bubble_pos = fig.add_axes([0.8,0.01,0.13,0.05])
-bubble_btn = Button(bubble_pos,label='Start',color='red')
-par = partial(btncall,input_str,input_ms)
-bubble_btn.on_clicked(par)
 
-anim = animation.FuncAnimation(fig, func=update_fig,
-        fargs=(bar_rects, iteration), frames=generator, interval=1,
+    text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
+
+
+    iteration = [0]
+    def update_fig(A, rects, iteration):
+        for rect, val in zip(rects, A):
+            rect.set_height(val)
+        iteration[0] += 1
+        text.set_text("# of operations: {}".format(iteration[0]))
+
+    anim = animation.FuncAnimation(fig, func=update_fig,
+        fargs=(bar_rects, iteration), frames=generator, interval=ms_val,
         repeat=False)
+    plt.show()
 
-plt.show()
+def onClick():
+    
+    qty_val = int(qty_inp.get())
+    alg_val = algo_inp.get()
+    global ms_val
+    ms_val = int(ms_inp.get())
+
+    rnd_list = genRandomNr(qty_val)
+    main(alg_val,rnd_list,qty_val)
+
+
+# Get user input to determine range of integers (1 to N) and desired
+# sorting method (algorithm).
+#  N = int(input("Enter number of integers: "))
+#  method_msg = "Enter sorting method:\n(b)ubble\n(i)nsertion\n(m)erge \
+#     \n(q)uick\n(s)election\n"
+#  method = input(method_msg)
+
+# # Build and randomly shuffle list of integers.
+#  A = [x + 1 for x in range(N)]
+#  random.seed(time.time())
+#  random.shuffle(A)
+
+root = Tk(className='Sound of Sorting')
+
+qty_lbl = ttk.Label(root,text='Qty')
+qty_inp = ttk.Entry(root)
+qty_inp.insert(0,'10')
+
+algo_lbl = ttk.Label(root,text='Enter Algo:')
+algo_inp = ttk.Combobox(root,values=algo_list)
+algo_inp.set('BubbleSort')
+
+ms_lbl = ttk.Label(root,text='Delay in Ms')
+ms_inp = ttk.Entry(root)
+ms_inp.insert(0,'500')
+btn = ttk.Button(root,text='Start',command=onClick)
+
+qty_lbl.grid(row=0,column=0,padx=30)
+qty_inp.grid(row=0,column=1,padx=10)
+algo_lbl.grid(row=1,column=0,padx=30)
+algo_inp.grid(row=1,column=1,padx=10)
+ms_lbl.grid(row=2,column=0,padx=30)
+ms_inp.grid(row=2,column=1,padx=10)
+
+btn.grid(row=3,column=0,padx=10)
+
+root.mainloop()
+
+
