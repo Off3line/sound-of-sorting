@@ -18,7 +18,7 @@ ms_val = 1
 algo_list = ['BubbleSort', 'SelectionSort','QuickSort','InsertionSort']
 
 N = 30
-FPS = 60
+FPS = 50
 OVERSAMPLE = 2
 F_SAMPLE = 44100
 
@@ -53,12 +53,15 @@ def main(method,A,N):
     fig, ax = plt.subplots()
     ax.set_title(title)
 
-    bar_rects = ax.bar(range(len(A)), A, align="edge")
+    # bar_rects = ax.bar(range(len(A)), A, align="edge")
+    bar_rects = ax.bar(np.arange(0,len(A),1),
+                       A.full_copies[0], align="edge")
 
     ax.set_xlim(0, N)
     ax.set_ylim(0)
     text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
 
+    
     iteration = [0]
     def update_fig(frame):
         for rect, val in zip(bar_rects.patches, A.full_copies[frame]):
@@ -73,7 +76,7 @@ def main(method,A,N):
         elif op == "set":
             bar_rects.patches[idx].set_color("red")
 
-    anim = animation.FuncAnimation(fig, update_fig,
+    anim = animation.FuncAnimation(fig, update_fig, frames=range(len(A.full_copies)),
         interval=1000./FPS, repeat=False,cache_frame_data=False)
     
     sg = SoundGenerator(A,FPS)
@@ -81,9 +84,10 @@ def main(method,A,N):
     dir = os.getcwd() + '/sound/sound.wav'
     filename = dir
     wave_obj = sa.WaveObject.from_wave_file(filename)
+    
     play_obj = wave_obj.play()
-
     plt.show()
+    
 
 def onClick():
     
@@ -107,7 +111,7 @@ algo_inp.set('BubbleSort')
 
 ms_lbl = ttk.Label(root,text='Delay in Ms')
 ms_inp = ttk.Entry(root)
-ms_inp.insert(0,'100')
+ms_inp.insert(0,'1000')
 btn = ttk.Button(root,text='Start',command=onClick)
 
 qty_lbl.grid(row=0,column=0,padx=30)
