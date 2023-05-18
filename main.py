@@ -7,9 +7,10 @@ import numpy as np
 import random
 
 from algos import bubbleSort,insertionSort,quickSort
-
+from graphic import Graphic
+from array_tracker import ArrayTracker
 algo_list = ['BubbleSort','QuickSort','InsertionSort']
-
+txt = ''
 QTY_LIST = 30
 
 
@@ -29,31 +30,28 @@ def onClick():
     alg_val = algo_inp.get()
 
     rnd_list = genRandomNr(high_val)
-    main(rnd_list,alg_val,high_val)
+    at = ArrayTracker(rnd_list)
+    main(rnd_list,alg_val,high_val,at)
 
-def main(randList,algo,highest):
+def main(randList,algo,highest,at):
 
     if  algo == "BubbleSort":
         title = "Bubble Sort"
-        generator = bubbleSort(randList)
+        #generator = bubbleSort(randList)
     
     elif algo == "InsertionSort":
         title = "Insertion Sort"
-        generator = insertionSort(randList)
+        #generator = insertionSort(randList)
 
     elif algo == "QuickSort":
         title = "Quick Sort"
-        generator = quickSort(randList, 0, N - 1)
+        #generator = quickSort(randList, 0, len(randList) - 1)
 
     # Initialize figure and axis.
-    fig, ax = plt.subplots()
-    ax.set_title(title)
-    stems = ax.stem(range(len(randList)), randList)
-
-    ax.set_xlim(0, len(randList))
-    ax.set_ylim(0,highest+1)
+    gr = Graphic(at,QTY_LIST,"Sorter!",60)
+    gr.generate()
     
-    plt.show()
+
 
 
 root = Tk(className='Sound of Sorting')
