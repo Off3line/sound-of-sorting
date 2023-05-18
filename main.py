@@ -3,6 +3,7 @@ import matplotlib.animation as animation
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
+import numpy as np
 import random
 
 from algos import bubbleSort,insertionSort,quickSort
@@ -28,9 +29,9 @@ def onClick():
     alg_val = algo_inp.get()
 
     rnd_list = genRandomNr(high_val)
-    main(rnd_list,alg_val)
+    main(rnd_list,alg_val,high_val)
 
-def main(randList,algo):
+def main(randList,algo,highest):
 
     if  algo == "BubbleSort":
         title = "Bubble Sort"
@@ -47,10 +48,10 @@ def main(randList,algo):
     # Initialize figure and axis.
     fig, ax = plt.subplots()
     ax.set_title(title)
-    bar_stem = ax.stem(randList,randList,linefmt='grey', bottom=0.1)
+    stems = ax.stem(range(len(randList)), randList)
 
     ax.set_xlim(0, len(randList))
-    ax.set_ylim(0)
+    ax.set_ylim(0,highest+1)
     
     plt.show()
 
