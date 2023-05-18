@@ -5,9 +5,21 @@ from tkinter import *
 from tkinter.ttk import *
 import random
 
-algo_list = ['BubbleSort', 'SelectionSort','QuickSort','InsertionSort']
+from algos import bubbleSort,insertionSort,quickSort
+
+algo_list = ['BubbleSort','QuickSort','InsertionSort']
 
 QTY_LIST = 30
+
+
+
+def genRandomNr(high):
+    lst=[]
+    for i in range(QTY_LIST):
+        x = random.randint(1,high)
+        lst.append(x)
+    print(lst)
+    return lst
 
 def onClick():
     global ms_val
@@ -16,15 +28,31 @@ def onClick():
     alg_val = algo_inp.get()
 
     rnd_list = genRandomNr(high_val)
+    main(rnd_list,alg_val)
 
-def genRandomNr(high):
-    lst=[]
-    for i in range(QTY_LIST):
-        x = random.uniform(1,high)
-        lst.append(x)
-    print(lst)
-    return lst
+def main(randList,algo):
 
+    if  algo == "BubbleSort":
+        title = "Bubble Sort"
+        generator = bubbleSort(randList)
+    
+    elif algo == "InsertionSort":
+        title = "Insertion Sort"
+        generator = insertionSort(randList)
+
+    elif algo == "QuickSort":
+        title = "Quick Sort"
+        generator = quickSort(randList, 0, N - 1)
+
+    # Initialize figure and axis.
+    fig, ax = plt.subplots()
+    ax.set_title(title)
+    bar_stem = ax.stem(randList,randList,linefmt='grey', bottom=0.1)
+
+    ax.set_xlim(0, len(randList))
+    ax.set_ylim(0)
+    
+    plt.show()
 
 
 root = Tk(className='Sound of Sorting')
