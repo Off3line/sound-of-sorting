@@ -58,7 +58,7 @@ def main(method,A,N):
     ax.set_xlim(0, N)
     ax.set_ylim(0)
     text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
-
+    
     iteration = [0]
     def update_fig(frame):
         for rect, val in zip(bar_rects.patches, A.full_copies[frame]):
