@@ -17,14 +17,23 @@ QTY_LIST = 0
 
 
 
+# def genRandomNr(high):
+#     lst=[]
+#     for i in range(0,high+1):
+#         x = i
+#         lst.append(x)
+#     random.shuffle(lst)
+#     print(lst)
+#     return lst
 def genRandomNr(high):
-    lst=[]
-    for i in range(0,high+1):
-        x = i
-        lst.append(x)
-    random.shuffle(lst)
-    print(lst)
-    return lst
+    arr = np.round(np.linspace(0, high, high), 0)
+    np.random.seed(0)
+    np.random.shuffle(arr)
+    arr = ArrayTracker(arr)
+    np.random.seed(0)
+
+    return arr
+
 
 def onClick():
     
