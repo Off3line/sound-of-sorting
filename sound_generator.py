@@ -5,10 +5,7 @@ import os
 F_SAMPLE = 44100
 OVERSAMPLE = 2
 
-dir = "d:\Privat\git\plp-assignments\Christian\Assignment_2" if os.getcwd(
-) == "d:\Privat\git\plp-assignments" else os.getcwd()
-
-
+# Worked out this code together with Philipp.
 class SoundGenerator():
 
     def __init__(self, arr, fps):
@@ -16,7 +13,8 @@ class SoundGenerator():
         self.fps = fps
 
     def generate(self):
-        wav_data = np.zeros(np.int(F_SAMPLE*len(self.array.values)* 1./self.fps), dtype=np.float)
+        wav_data = np.zeros(np.int(F_SAMPLE*len(self.array.values)
+                            * 1./self.fps), dtype=np.float)
         dN = np.int(F_SAMPLE * 1./self.fps)  # how many samples is each chunk
 
         for i, value in enumerate(self.array.values):
@@ -36,8 +34,12 @@ class SoundGenerator():
 
         wav_data = (2**15*(wav_data/np.max(np.abs(wav_data)))).astype(np.int16)
 
+        folder = "sound"
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
         sp.io.wavfile.write(
-            f"{dir}/sound/sound.wav", F_SAMPLE, wav_data)
+            f"{folder}/sound.wav", F_SAMPLE, wav_data)
 
     def freq_map(self, x, x_min=0, x_max=1000, freq_min=120, freq_max=1200):
         """ map a value x to a frequency f and return a chunk of that frequency for the specificed time dt"""

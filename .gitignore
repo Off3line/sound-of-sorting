@@ -174,5 +174,5 @@ poetry.toml
 pyrightconfig.json
 
 # Custom
-
+/sound/*
 /frames

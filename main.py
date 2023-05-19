@@ -5,9 +5,11 @@ from tkinter import *
 from tkinter.ttk import *
 import numpy as np
 import random
-
+import simpleaudio as sa
+import os
 from algos import bubbleSort,insertionSort,quickSort
 from graphic import Graphic
+from sound_generator import SoundGenerator
 from array_tracker import ArrayTracker
 algo_list = ['BubbleSort','QuickSort','InsertionSort']
 txt = ''
@@ -50,9 +52,14 @@ def main(randList,algo,highest,at):
         #generator = quickSort(randList, 0, len(randList) - 1)
 
     # Initialize figure and axis.
+    sg = SoundGenerator(at,60)
+    sg.generate()
+
     gr = Graphic(at,QTY_LIST,title,60)
     gr.generate()
-    
+    dir = os.getcwd() + '/sound/sound.wav'
+    wave_obj = sa.WaveObject.from_wave_file(dir)
+    play_obj = wave_obj.play()
 
 
 
