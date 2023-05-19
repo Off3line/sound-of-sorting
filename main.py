@@ -44,7 +44,7 @@ def onClick():
 
     rnd_list = genRandomNr(high_val)
     at = ArrayTracker(rnd_list)
-    main(rnd_list,alg_val,high_val,at,ms_val)
+    main(alg_val,high_val,at,ms_val)
 
 def main(algo,highest,at,ms):
 
@@ -61,7 +61,7 @@ def main(algo,highest,at,ms):
         quickSort(at, 0, len(at) - 1)
     
     SoundGenerator(at,60,highest).generate()
-    dir = os.getcwd() + '/sound/sound.wav'
+    dir = os.getcwd() + '/tones.wav'
     # wave_obj = sa.WaveObject.from_wave_file(dir)
     # play_obj = wave_obj.play()
 

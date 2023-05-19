@@ -7,7 +7,6 @@ import subprocess
 
 
 
-
 class Graphic():
 
     def __init__(self, array, n, sorter, ms):
@@ -33,8 +32,8 @@ class Graphic():
         
         plt.show()
        
-        tr = Thread(target=self.genVideo,args=ani)
-        tr.start()
+        # tr = Thread(target=self.genVideo,args=ani)
+        # tr.start()
 
         fig.set_size_inches(10,8)
        
@@ -62,6 +61,7 @@ class Graphic():
 
             if op == "get":
                 self.container.patches[idx].set_color("magenta")
+                print('Bar:', self.container.patches[idx].get_height())
             elif op == "set":
                 self.container.patches[idx].set_color("blue")
             return (self.txt, *self.container)
