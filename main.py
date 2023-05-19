@@ -11,15 +11,16 @@ from graphic import Graphic
 from array_tracker import ArrayTracker
 algo_list = ['BubbleSort','QuickSort','InsertionSort']
 txt = ''
-QTY_LIST = 30
+QTY_LIST = 0
 
 
 
 def genRandomNr(high):
     lst=[]
-    for i in range(QTY_LIST):
-        x = random.randint(1,high)
+    for i in range(0,high+1):
+        x = i
         lst.append(x)
+    random.shuffle(lst)
     print(lst)
     return lst
 
@@ -27,6 +28,7 @@ def onClick():
     global ms_val
     ms_val = int(ms_inp.get())
     high_val = int(high_inp.get())
+    QTY_LIST = high_val
     alg_val = algo_inp.get()
 
     rnd_list = genRandomNr(high_val)
@@ -56,7 +58,7 @@ def main(randList,algo,highest,at):
 
 root = Tk(className='Sound of Sorting')
 
-high_lbl = ttk.Label(root,text='Highest value')
+high_lbl = ttk.Label(root,text='Define Value n')
 high_inp = ttk.Entry(root)
 high_inp.insert(0,'10')
 

@@ -22,7 +22,7 @@ class Graphic():
         self.container = ax.bar(range(len(self.array)), self.array)
         fig.suptitle(f"{self.sorter} sort")
         ax.set(xlabel="Index", ylabel="Value")
-        ax.set_xlim([0, self.n])
+        ax.set_xlim(self.n)
         self.txt = ax.text(0.01, 0.99, "", ha="left",
                            va="top", transform=ax.transAxes)
 
