@@ -19,10 +19,11 @@ class Graphic():
     def generate(self):
         fig, ax = plt.subplots()
 
-        self.container = ax.bar(range(len(self.array)), self.array)
-        fig.suptitle(f"{self.sorter} sort")
+        self.container = ax.bar(range(len(self.array)), self.array,align="edge", width=0.5)
+        fig.suptitle(f"{self.sorter}")
         ax.set(xlabel="Index", ylabel="Value")
         ax.set_xlim(self.n)
+        plt.xticks(np.arange(min(self.array),max(self.array)+1,1.0))
         self.txt = ax.text(0.01, 0.99, "", ha="left",
                            va="top", transform=ax.transAxes)
 

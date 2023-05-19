@@ -25,7 +25,7 @@ def genRandomNr(high):
     return lst
 
 def onClick():
-    global ms_val
+    
     ms_val = int(ms_inp.get())
     high_val = int(high_inp.get())
     QTY_LIST = high_val
@@ -39,7 +39,7 @@ def main(randList,algo,highest,at):
 
     if  algo == "BubbleSort":
         title = "Bubble Sort"
-        #generator = bubbleSort(randList)
+        bubbleSort(at)
     
     elif algo == "InsertionSort":
         title = "Insertion Sort"
@@ -50,7 +50,7 @@ def main(randList,algo,highest,at):
         #generator = quickSort(randList, 0, len(randList) - 1)
 
     # Initialize figure and axis.
-    gr = Graphic(at,QTY_LIST,"Sorter!",60)
+    gr = Graphic(at,QTY_LIST,title,60)
     gr.generate()
     
 

@@ -80,8 +80,8 @@ def main(method,A,N):
     sg.generate()
     dir = os.getcwd() + '/sound/sound.wav'
     filename = dir
-    wave_obj = sa.WaveObject.from_wave_file(filename)
-    play_obj = wave_obj.play()
+    # wave_obj = sa.WaveObject.from_wave_file(filename)
+    # play_obj = wave_obj.play()
 
     plt.show()
 
