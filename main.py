@@ -52,15 +52,17 @@ def main(randList,algo,highest,at):
         #generator = quickSort(randList, 0, len(randList) - 1)
 
     # Initialize figure and axis.
-    sg = SoundGenerator(at,60)
-    sg.generate()
-
-    gr = Graphic(at,QTY_LIST,title,60)
-    gr.generate()
+  
+    SoundGenerator(at,62).generate()
     dir = os.getcwd() + '/sound/sound.wav'
     wave_obj = sa.WaveObject.from_wave_file(dir)
     play_obj = wave_obj.play()
 
+    gr = Graphic(at,QTY_LIST,title,60)
+    gr.generate()
+
+
+   
 
 
 root = Tk(className='Sound of Sorting')

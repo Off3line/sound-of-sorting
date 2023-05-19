@@ -10,7 +10,7 @@ class SoundGenerator():
 
     def __init__(self, arr, fps):
         self.array = arr
-        self.fps = fps
+        self.fps =fps
 
     def generate(self):
         wav_data = np.zeros(np.int(F_SAMPLE*len(self.array.values)
