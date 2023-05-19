@@ -10,7 +10,7 @@ class SoundGenerator():
 
     def __init__(self, arr, fps):
         self.array = arr
-        self.fps =fps
+        self.fps = fps
 
     def generate(self):
         wav_data = np.zeros(np.int(F_SAMPLE*len(self.array.values)
@@ -41,7 +41,7 @@ class SoundGenerator():
         sp.io.wavfile.write(
             f"{folder}/sound.wav", F_SAMPLE, wav_data)
 
-    def freq_map(self, x, x_min=0, x_max=1000, freq_min=120, freq_max=1200):
+    def freq_map(self, x, x_min=0, x_max=15, freq_min=120, freq_max=1200):
         """ map a value x to a frequency f and return a chunk of that frequency for the specificed time dt"""
         return np.interp(x, [x_min, x_max], [freq_min, freq_max])
 
