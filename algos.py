@@ -18,45 +18,38 @@ def bubbleSort(arr):
                 return
 
 
-def insertionSort(A):
-    if (n := len(A)) <= 1:
-      return
-    for i in range(1, n):
-         
-        key = A[i]
- 
-        # Move elements of arr[0..i-1], that are
-        # greater than key, to one position ahead
-        # of their current position
-        j = i-1
-        while j >=0 and key < A[j] :
-                A[j+1] = A[j]
-                j -= 1
-        A[j+1] = key
+def insertionSort(arr):
+    for step in range(1, len(arr)):
+        key = arr[step]
+        j = step - 1
+        
+        # Compare key with each element on the left of it until an element smaller than it is found
+        # For descending order, change key<array[j] to key>array[j].        
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j = j - 1
+        
+        # Place key at after the element just smaller than it.
+        arr[j + 1] = key
  
 
-def swap(A, i, j):
+def quickSort(arr, lo, hi):
+    if lo < hi:
+        p = partition(arr, lo, hi)
+        quickSort(arr, lo, p - 1)
+        quickSort(arr, p + 1, hi)
 
-    if i != j:
-        A[i], A[j] = A[j], A[i]
 
-
-def quickSort(A, start, end):
-   
-
-    if start >= end:
-        return
-
-    pivot = A[end]
-    pivotIdx = start
-
-    for i in range(start, end):
-        if A[i] < pivot:
-            swap(A, i, pivotIdx)
-            pivotIdx += 1
-        yield A
-    swap(A, end, pivotIdx)
-    yield A
-
-    yield from quickSort(A, start, pivotIdx - 1)
-    yield from quickSort(A, pivotIdx + 1, end)
+def partition(arr, lo, hi):
+    pivot = arr[hi]
+    i = lo
+    for j in range(lo, hi):
+        if arr[j] < pivot:
+            temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp
+            i += 1
+    temp = arr[i]
+    arr[i] = arr[hi]
+    arr[hi] = temp
+    return i

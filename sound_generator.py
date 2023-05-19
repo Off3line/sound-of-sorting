@@ -8,9 +8,10 @@ OVERSAMPLE = 2
 # Worked out this code together with Philipp.
 class SoundGenerator():
 
-    def __init__(self, arr, fps):
+    def __init__(self, arr, fps,max):
         self.array = arr
         self.fps = fps
+        self.max = max
 
     def generate(self):
         wav_data = np.zeros(np.int(F_SAMPLE*len(self.array.values)
@@ -19,8 +20,8 @@ class SoundGenerator():
 
         for i, value in enumerate(self.array.values):
 
-            freq = self.freq_map(value)
-
+            freq = self.freq_map(value, x_max=self.max)
+        
             sample = self.freq_sample(freq, dt=1./self.fps, samplerate=F_SAMPLE,
                                       oversample=OVERSAMPLE)
 
@@ -41,7 +42,7 @@ class SoundGenerator():
         sp.io.wavfile.write(
             f"{folder}/sound.wav", F_SAMPLE, wav_data)
 
-    def freq_map(self, x, x_min=0, x_max=15, freq_min=120, freq_max=1200):
+    def freq_map(self, x, x_min=0, x_max=1000, freq_min=120, freq_max=1200):
         """ map a value x to a frequency f and return a chunk of that frequency for the specificed time dt"""
         return np.interp(x, [x_min, x_max], [freq_min, freq_max])
 

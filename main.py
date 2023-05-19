@@ -7,6 +7,7 @@ import numpy as np
 import random
 import simpleaudio as sa
 import os
+import subprocess
 from algos import bubbleSort,insertionSort,quickSort
 from graphic import Graphic
 from sound_generator import SoundGenerator
@@ -17,22 +18,21 @@ QTY_LIST = 0
 
 
 
-# def genRandomNr(high):
-#     lst=[]
-#     for i in range(0,high+1):
-#         x = i
-#         lst.append(x)
-#     random.shuffle(lst)
-#     print(lst)
-#     return lst
 def genRandomNr(high):
-    arr = np.round(np.linspace(0, high, high), 0)
-    np.random.seed(0)
-    np.random.shuffle(arr)
-    arr = ArrayTracker(arr)
-    np.random.seed(0)
-
-    return arr
+    lst=[]
+    for i in range(0,high+1):
+        x = i
+        lst.append(x)
+    random.shuffle(lst)
+    print(lst)
+    return lst
+# def genRandomNr(high):
+#     arr = np.round(np.linspace(0, high, high), 0)
+#     np.random.seed(0)
+#     np.random.shuffle(arr)
+#     arr = ArrayTracker(arr)
+#     np.random.seed(0)
+#     return arr
 
 
 def onClick():
@@ -44,9 +44,9 @@ def onClick():
 
     rnd_list = genRandomNr(high_val)
     at = ArrayTracker(rnd_list)
-    main(rnd_list,alg_val,high_val,at)
+    main(rnd_list,alg_val,high_val,at,ms_val)
 
-def main(randList,algo,highest,at):
+def main(algo,highest,at,ms):
 
     if  algo == "BubbleSort":
         title = "Bubble Sort"
@@ -54,31 +54,27 @@ def main(randList,algo,highest,at):
     
     elif algo == "InsertionSort":
         title = "Insertion Sort"
-        #generator = insertionSort(randList)
+        insertionSort(at)
 
     elif algo == "QuickSort":
         title = "Quick Sort"
-        #generator = quickSort(randList, 0, len(randList) - 1)
-
-    # Initialize figure and axis.
-  
-    SoundGenerator(at,62).generate()
+        quickSort(at, 0, len(at) - 1)
+    
+    SoundGenerator(at,60,highest).generate()
     dir = os.getcwd() + '/sound/sound.wav'
-    wave_obj = sa.WaveObject.from_wave_file(dir)
-    play_obj = wave_obj.play()
+    # wave_obj = sa.WaveObject.from_wave_file(dir)
+    # play_obj = wave_obj.play()
 
-    gr = Graphic(at,QTY_LIST,title,60)
+    gr = Graphic(at,QTY_LIST,title,ms)
     gr.generate()
 
-
-   
 
 
 root = Tk(className='Sound of Sorting')
 
 high_lbl = ttk.Label(root,text='Define Value n')
 high_inp = ttk.Entry(root)
-high_inp.insert(0,'10')
+high_inp.insert(0,'15')
 
 algo_lbl = ttk.Label(root,text='Enter Algo:')
 algo_inp = ttk.Combobox(root,values=algo_list)
@@ -86,7 +82,7 @@ algo_inp.set('BubbleSort')
 
 ms_lbl = ttk.Label(root,text='Delay in Ms')
 ms_inp = ttk.Entry(root)
-ms_inp.insert(0,'16')
+ms_inp.insert(0,'500')
 btn = ttk.Button(root,text='Start',command=onClick)
 
 high_lbl.grid(row=0,column=0,padx=30)
