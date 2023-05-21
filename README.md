@@ -1,5 +1,5 @@
 # Sound of Sorting Task for the PLP Assignment 2
-
+The project is also available under [GitHub](https://github.com/Off3line/sound-of-sorting)
 
 ## How to run the project
 Make sure to have the dependencies from the requirements.txt file. Ideally, you can create a virtual environment folder. 
@@ -11,8 +11,7 @@ Run this command to create a venv folder:
 To activate the virtual environment:
 ``source <venv>/bin/activate``
 
-Install the dependencies: 
-``pip install -r requirements.txt``
+Install the dependencies: ``pip install -r requirements.txt``
 
 ## Important Info
 - On Windows WSL, the audio play somehow did not work due to some bugs reported on WSL itself. However, on Mac (Apple Silicon) and generally Linux the audio should play without any major issues.
