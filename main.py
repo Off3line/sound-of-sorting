@@ -23,7 +23,7 @@ def genRandomNr(high):
 
 def onClick():
     
-    ms_val = int(ms_inp.get())
+    ms_val = float(ms_inp.get())
     high_val = int(high_inp.get())
     QTY_LIST = high_val
     alg_val = algo_inp.get()
