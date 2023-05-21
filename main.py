@@ -2,14 +2,17 @@ from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
 import numpy as np
+import time
 import os
 import random
 import simpleaudio as sa
 from algos import bubbleSort,insertionSort,quickSort,cycleSort,heapSort,selectionSort,shellSort
-from graphic import Graphic
+from plot import Plot
 from sound_writer import SoundWriter
 from array_tracker import ArrayTracker
+from threading import Thread
 algo_list = ['BubbleSort','QuickSort','InsertionSort','CycleSort','HeapSort','SelectionSort','ShellSort']
+color_list = ['orange','red','blue','green']
 QTY_LIST = 0
 
 
@@ -21,14 +24,6 @@ def genRandomNr(high):
     random.shuffle(lst)
     print(lst)
     return lst
-# def genRandomNr(high):
-#     arr = np.round(np.linspace(0, high, high), 0)
-#     np.random.seed(0)
-#     np.random.shuffle(arr)
-#     arr = ArrayTracker(arr)
-#     np.random.seed(0)
-#     return arr
-
 
 def onClick():
     
@@ -36,12 +31,12 @@ def onClick():
     high_val = int(high_inp.get())
     QTY_LIST = high_val
     alg_val = algo_inp.get()
-
+    color_val = color_inp.get()
     rnd_list = genRandomNr(high_val)
     at = ArrayTracker(rnd_list)
-    main(alg_val,high_val,at,ms_val)
+    main(alg_val,high_val,at,ms_val,color_val)
 
-def main(algo,highest,at,ms):
+def main(algo,highest,at,ms,color_val):
 
     if  algo == "BubbleSort":
         title = "Bubble Sort"
@@ -72,16 +67,14 @@ def main(algo,highest,at,ms):
         shellSort(at)
     
     if cbox.instate(['selected']) is False:
-        SoundWriter(at,10,highest,ms).generate()
+        SoundWriter(at,highest,ms).generate()
         dir = os.getcwd() + '/tones.wav'
         wave_obj = sa.WaveObject.from_wave_file(dir)
         play_obj = wave_obj
-        play_obj.play()
+       
 
-
-    gr = Graphic(at,QTY_LIST,title,ms)
+    gr = Plot(at,QTY_LIST,title,ms,play_obj,color_val)
     gr.generate()
-
 
 
 root = Tk(className='Sound of Sorting')
@@ -102,13 +95,19 @@ btn = ttk.Button(root,text='Start',command=onClick)
 cbox = ttk.Checkbutton(root,text='Disable Sound?',takefocus=0)
 cbox.state(['!alternate'])
 
+color_lbl = ttk.Label(root,text='Select Bat Color:')
+color_inp = ttk.Combobox(root,values=color_list)
+color_inp.set('orange')
+
 high_lbl.grid(row=0,column=0,padx=30)
 high_inp.grid(row=0,column=1,padx=10)
 algo_lbl.grid(row=1,column=0,padx=30)
 algo_inp.grid(row=1,column=1,padx=10)
 ms_lbl.grid(row=2,column=0,padx=30)
 ms_inp.grid(row=2,column=1,padx=10)
-cbox.grid(row=3,column=0,padx=10)
-btn.grid(row=4,column=0,padx=10)
+color_lbl.grid(row=3,column=0,padx=30)
+color_inp.grid(row=3,column=1,padx=10)
+cbox.grid(row=4,column=0,padx=10)
+btn.grid(row=5,column=0,padx=10)
 
 root.mainloop()

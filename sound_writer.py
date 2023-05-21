@@ -9,9 +9,8 @@ OVERSAMPLE = 2
 # Worked out this code together with Christian.
 class SoundWriter():
 
-    def __init__(self, arr, fps,max,ms):
+    def __init__(self, arr,max,ms):
         self.array = arr
-        self.fps = fps
         self.max = max
         self.ms = ms
         self.mixer = Mixer(F_SAMPLE, 0.5)
@@ -28,7 +27,6 @@ class SoundWriter():
             # calc = len(self.array.full_copies)/ 500
             self.mixer.add_tone(1,freq,duration=self.ms/1000)
             freq = self.freq_map(value, x_max=self.max)
-            print('Frequency ', freq)
             # sample = self.freq_sample(freq, dt=1./self.fps, samplerate=F_SAMPLE,
             #                           oversample=OVERSAMPLE)
             # print('Sample for given freq', sample)
@@ -39,17 +37,18 @@ class SoundWriter():
             #     wav_data[idx_0:idx_1] = wav_data[idx_0:idx_1] + sample
             # except ValueError:
             #     continue
-        self.mixer.write_wav('tones.wav')
+       
 
         # wav_data = (2**15*(wav_data/np.max(np.abs(wav_data)))).astype(np.int16)
-        
-    
-        # for x in self.array.full_copies[-1]:
-        #     freq = self.freq_map(x,x_max=self.max)
-        #     self.mixer.add_tone(1,freq,duration=self.ms/1000)
-        #     acc.append(freq)
-        # print('Amount of Frequencies generated',len(acc))
-
+        freq_lowest = self.freq_map(0)
+        self.mixer.add_tone(1,freq_lowest,duration=self.ms/1000)
+        acc.append(freq_lowest)
+        for x in self.array.full_copies[-1]:
+            freq = self.freq_map(x,x_max=self.max)
+            self.mixer.add_tone(1,freq,duration=self.ms/1000)
+            acc.append(freq)
+        print('Freq generated ', len(acc))
+        self.mixer.write_wav('tones.wav')
 
         # folder = "sound"
         # if not os.path.exists(folder):
