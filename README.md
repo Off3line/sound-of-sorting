@@ -6,11 +6,13 @@ Make sure to have the dependencies from the requirements.txt file. Ideally, you 
 
 
 Run this command to create a venv folder:
-``python -m venv /path/to/new/virtual/environment``
+``python3 -m venv /path/to/new/virtual/environment``
 
 To activate the virtual environment:
 ``source <venv>/bin/activate``
 
+Install the dependencies: 
+``pip install -r requirements.txt``
 
 ## Important Info
 - On Windows WSL, the audio play somehow did not work due to some bugs reported on WSL itself. However, on Mac (Apple Silicon) and generally Linux the audio should play without any major issues.
