@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 import os
 from threading import Thread
 import subprocess
-
+import time
 
 
 class Graphic():
@@ -14,28 +14,28 @@ class Graphic():
         self.n = n
         self.sorter = sorter
         self.ms = ms
+       # self.play_obj = play_obj
 
 
     def generate(self):
         fig, ax = plt.subplots()
-
         self.container = ax.bar(range(len(self.array)), self.array,align="edge", width=0.3)
         fig.suptitle(f"{self.sorter}")
         ax.set(xlabel="Index", ylabel="Value")
         ax.set_xlim(self.n)
-        plt.xticks(np.arange(min(self.array),max(self.array)+1,1.0))
         self.txt = ax.text(0.01, 0.99, "", ha="left",
                            va="top", transform=ax.transAxes)
-
-        ani = FuncAnimation(fig, self.update, frames=range(len(self.array.full_copies)),
+        print('Values from graphic', self.array.values)
+        print('Amount of frames from graphics', len(self.array.values))
+        ani = FuncAnimation(fig, self.update, frames=range(len(self.array.values)),
                             blit=True, interval=self.ms, repeat=False)
         
+        fig.set_size_inches(8,8)
+       
+        # self.play_obj.play()
         plt.show()
        
-        # tr = Thread(target=self.genVideo,args=ani)
-        # tr.start()
 
-        fig.set_size_inches(10,8)
        
 
     
@@ -61,7 +61,7 @@ class Graphic():
 
             if op == "get":
                 self.container.patches[idx].set_color("magenta")
-                print('Bar:', self.container.patches[idx].get_height())
+                # print('Bar:', self.container.patches[idx].get_height())
             elif op == "set":
                 self.container.patches[idx].set_color("blue")
             return (self.txt, *self.container)

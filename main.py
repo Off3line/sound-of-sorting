@@ -1,21 +1,16 @@
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
 import numpy as np
+import os
 import random
 import simpleaudio as sa
-import os
-import subprocess
-from algos import bubbleSort,insertionSort,quickSort
+from algos import bubbleSort,insertionSort,quickSort,cycleSort,heapSort,selectionSort,shellSort
 from graphic import Graphic
-from sound_generator import SoundGenerator
+from sound_writer import SoundWriter
 from array_tracker import ArrayTracker
-algo_list = ['BubbleSort','QuickSort','InsertionSort']
-txt = ''
+algo_list = ['BubbleSort','QuickSort','InsertionSort','CycleSort','HeapSort','SelectionSort','ShellSort']
 QTY_LIST = 0
-
 
 
 def genRandomNr(high):
@@ -59,11 +54,30 @@ def main(algo,highest,at,ms):
     elif algo == "QuickSort":
         title = "Quick Sort"
         quickSort(at, 0, len(at) - 1)
+
+    elif algo == 'CycleSort':
+        title = 'Cycle Sort'
+        cycleSort(at)
+
+    elif algo == 'HeapSort':
+        title = 'Heap Sort'
+        heapSort(at)
+
+    elif algo == 'SelectionSort':
+        title = 'Selection Sort'
+        selectionSort(at,len(at))
+
+    elif algo == 'ShellSort':
+        title = 'Shell Sort'
+        shellSort(at)
     
-    SoundGenerator(at,60,highest).generate()
-    dir = os.getcwd() + '/tones.wav'
-    # wave_obj = sa.WaveObject.from_wave_file(dir)
-    # play_obj = wave_obj.play()
+    if cbox.instate(['selected']) is False:
+        SoundWriter(at,10,highest,ms).generate()
+        dir = os.getcwd() + '/tones.wav'
+        wave_obj = sa.WaveObject.from_wave_file(dir)
+        play_obj = wave_obj
+        play_obj.play()
+
 
     gr = Graphic(at,QTY_LIST,title,ms)
     gr.generate()
@@ -85,13 +99,16 @@ ms_inp = ttk.Entry(root)
 ms_inp.insert(0,'500')
 btn = ttk.Button(root,text='Start',command=onClick)
 
+cbox = ttk.Checkbutton(root,text='Disable Sound?',takefocus=0)
+cbox.state(['!alternate'])
+
 high_lbl.grid(row=0,column=0,padx=30)
 high_inp.grid(row=0,column=1,padx=10)
 algo_lbl.grid(row=1,column=0,padx=30)
 algo_inp.grid(row=1,column=1,padx=10)
 ms_lbl.grid(row=2,column=0,padx=30)
 ms_inp.grid(row=2,column=1,padx=10)
-
-btn.grid(row=3,column=0,padx=10)
+cbox.grid(row=3,column=0,padx=10)
+btn.grid(row=4,column=0,padx=10)
 
 root.mainloop()
