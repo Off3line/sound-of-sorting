@@ -1,12 +1,10 @@
 def bubbleSort(arr):
         n = len(arr)
         swapped = False
-
        
         for i in range(n-1):
             for j in range(0, n-i-1):
 
-               
                 if arr[j] > arr[j + 1]:
                     swapped = True
                     arr[j], arr[j +1] = arr[j + 1], arr[j]
@@ -24,7 +22,6 @@ def insertionSort(arr):
         while j >= 0 and key < arr[j]:
             arr[j + 1] = arr[j]
             j = j - 1
-        
         
         arr[j + 1] = key
  
@@ -58,7 +55,6 @@ def cycleSort(array):
   for cycleStart in range(0, len(array) - 1):
     item = array[cycleStart]
      
-   
     pos = cycleStart
     for i in range(cycleStart + 1, len(array)):
       if array[i] < item:
@@ -74,7 +70,6 @@ def cycleSort(array):
     array[pos], item = item, array[pos]
     writes += 1
      
-   
     while pos != cycleStart:
        
  
@@ -83,7 +78,6 @@ def cycleSort(array):
         if array[i] < item:
           pos += 1
        
-
       while item == array[pos]:
         pos += 1
       array[pos], item = item, array[pos]
@@ -94,37 +88,24 @@ def heapify(arr, n, i):
     l = 2 * i + 1  # left = 2*i + 1
     r = 2 * i + 2  # right = 2*i + 2
  
- 
     if l < n and arr[i] < arr[l]:
         largest = l
- 
  
     if r < n and arr[largest] < arr[r]:
         largest = r
  
- 
- 
     if largest != i:
         (arr[i], arr[largest]) = (arr[largest], arr[i])  # swap
  
- 
         heapify(arr, n, largest)
- 
- 
-
  
 def heapSort(arr):
     n = len(arr)
- 
-
     for i in range(n // 2 - 1, -1, -1):
         heapify(arr, n, i)
- 
- 
     for i in range(n - 1, 0, -1):
         (arr[i], arr[0]) = (arr[0], arr[i])  # swap
-        heapify(arr, i, 0)
-  
+        heapify(arr, i, 0) 
 
 def selectionSort(array, size):
     

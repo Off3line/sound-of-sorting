@@ -1,8 +1,6 @@
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import *
-import numpy as np
-import time
 import os
 import random
 import simpleaudio as sa
@@ -10,7 +8,6 @@ from algos import bubbleSort,insertionSort,quickSort,cycleSort,heapSort,selectio
 from plot import Plot
 from sound_writer import SoundWriter
 from array_tracker import ArrayTracker
-from threading import Thread
 algo_list = ['BubbleSort','QuickSort','InsertionSort','CycleSort','HeapSort','SelectionSort','ShellSort']
 color_list = ['orange','red','blue','green']
 QTY_LIST = 0
@@ -22,7 +19,6 @@ def genRandomNr(high):
         x = i
         lst.append(x)
     random.shuffle(lst)
-    print(lst)
     return lst
 
 def onClick():
@@ -65,7 +61,7 @@ def main(algo,highest,at,ms,color_val):
     elif algo == 'ShellSort':
         title = 'Shell Sort'
         shellSort(at)
-    
+    play_obj = None
     if cbox.instate(['selected']) is False:
         SoundWriter(at,highest,ms).generate()
         dir = os.getcwd() + '/tones.wav'
@@ -95,7 +91,7 @@ btn = ttk.Button(root,text='Start',command=onClick)
 cbox = ttk.Checkbutton(root,text='Disable Sound?',takefocus=0)
 cbox.state(['!alternate'])
 
-color_lbl = ttk.Label(root,text='Select Bat Color:')
+color_lbl = ttk.Label(root,text='Select Bar Color:')
 color_inp = ttk.Combobox(root,values=color_list)
 color_inp.set('orange')
 
