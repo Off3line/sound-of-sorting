@@ -1,4 +1,4 @@
-# Sound of Sorting Task for the PLP Assignment 2
+# Sound of Sorting Task for the PLP Assignment 2 from the University of Zurich
 The project is also available under [GitHub](https://github.com/Off3line/sound-of-sorting)
 
 ## How to run the project
